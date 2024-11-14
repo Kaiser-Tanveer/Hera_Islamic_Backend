@@ -1,12 +1,17 @@
+// app.js
 const express = require('express');
 const cors = require('cors');
 const { connectToDatabase } = require('./config/db');
-const app = express();
 const errorHandler = require('./middleWares/errorHandler');
-const studentRouter = require('./routers/student');  // Make sure the path is correct
+const apiRouter = require('./routers'); // Import the main router
+const app = express();
 const PORT = process.env.PORT || 3003;
 
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 
 async function initialize() {
@@ -17,8 +22,10 @@ async function initialize() {
             next();
         });
 
-        // Mount the studentRouter at /api
-        app.use('/api', studentRouter);
+        // Mount the main API router at /api
+        app.use('/api', apiRouter);
+
+        // Error handling middleware
         app.use(errorHandler);
 
         app.listen(PORT, () => {

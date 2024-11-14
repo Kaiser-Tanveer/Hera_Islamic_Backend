@@ -1,7 +1,13 @@
-const studentRoute = require('./student');
 const express = require('express');
 const router = express.Router();
 
-router.use('/stu', studentRoute);
+const studentRoute = require('./student');
+const teacherRoute = require('./teacher');
+const userRoute = require('./users');
 
-module.exports(router);
+// Routes for specific types
+router.use('/students', studentRoute);
+router.use('/teachers', teacherRoute);
+router.use('/users', userRoute);
+
+module.exports = router;
