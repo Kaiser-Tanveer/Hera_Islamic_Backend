@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const studentRoute = require('./student');
-const teacherRoute = require('./teacher');
+const studentRoute = require('./students');
+const teacherRoute = require('./teachers');
 const userRoute = require('./users');
 
 // Routes for specific types

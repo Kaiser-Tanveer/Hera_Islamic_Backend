@@ -1,4 +1,3 @@
-// userController.js
 const { ObjectId } = require('mongodb');
 
 // Add User 
@@ -14,8 +13,8 @@ const addUser = async (req, res, userType) => {
     }
 };
 
-// Get User 
-const getAllUsers = async (req, res, userType) => {
+// Get Users by Type
+const getUsers = async (req, res, userType) => {
     try {
         const userCollection = req.client.db('Hera_Islamic_DB').collection('users');
         const users = await userCollection.find({ userType }).toArray();
@@ -25,6 +24,24 @@ const getAllUsers = async (req, res, userType) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+// Get Users by Type
+const getAllUsers = async (req, res) => {
+    try {
+        const { page = 1, limit = 10 } = req.query; // Default page=1 and limit=10
+        const userCollection = req.client.db('Hera_Islamic_DB').collection('users');
+        const users = await userCollection
+            .find({})
+            // .skip((page - 1) * limit) // Skip documents
+            // .limit(parseInt(limit)) // Limit the number of documents
+            .toArray();
+        res.json(users);
+    } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
 
 // Update userType 
 const updateUserType = async (req, res) => {
@@ -76,4 +93,4 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { addUser, getAllUsers, updateUserType, deleteUser};
+module.exports = { addUser, getAllUsers, getUsers, updateUserType, deleteUser };
