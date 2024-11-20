@@ -1,47 +1,34 @@
 const { ObjectId } = require('mongodb');
 
 // Add User 
-const addUser = async (req, res, userType) => {
+const addBook = async (req, res) => {
     try {
-        const userData = { ...req.body, userType };
-        const userCollection = req.client.db('Hera_Islamic_DB').collection('users');
-        const result = await userCollection.insertOne(userData);
-        res.status(201).json({ message: `${userType} added successfully`, data: result });
+        const bookData = { ...req.body };
+        const bookCollection = req.client.db('Hera_Islamic_DB').collection('library');
+        const result = await bookCollection.insertOne(bookData);
+        res.status(201).json({ message: `Book added successfully`, data: result });
     } catch (error) {
-        console.error(`Error adding ${userType}:`, error);
-        res.status(500).json({ error: `Failed to add ${userType}` });
+        console.error(`Error adding Book`, error);
+        res.status(500).json({ error: `Failed to add Book` });
     }
 };
 
 // Get Users by Type
-const getUsers = async (req, res, userType) => {
-    try {
-        const userCollection = req.client.db('Hera_Islamic_DB').collection('users');
-        const users = await userCollection.find({ userType }).toArray();
-        res.json(users);
-    } catch (error) {
-        console.error(`Error fetching ${userType}s:`, error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-};
-
-// Get Users by Type
-const getAllUsers = async (req, res) => {
+const getAllBooks = async (req, res) => {
     try {
         const { page = 1, limit = 10 } = req.query; // Default page=1 and limit=10
-        const userCollection = req.client.db('Hera_Islamic_DB').collection('users');
-        const users = await userCollection
+        const bookCollection = req.client.db('Hera_Islamic_DB').collection('library');
+        const books = await bookCollection
             .find({})
             // .skip((page - 1) * limit) // Skip documents
             // .limit(parseInt(limit)) // Limit the number of documents
             .toArray();
-        res.json(users);
+        res.json(books);
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('Error fetching books:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
 
 // Update userType 
 const updateUserType = async (req, res) => {
@@ -72,7 +59,7 @@ const updateUserType = async (req, res) => {
 };
 
 // Delete User
-const deleteUser = async (req, res) => {
+const deleteBook = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -94,4 +81,4 @@ const deleteUser = async (req, res) => {
     }
 };
 
-module.exports = { addUser, getAllUsers, getUsers, updateUserType, deleteUser };
+module.exports = { addBook, getAllBooks };
