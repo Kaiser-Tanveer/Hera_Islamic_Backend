@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const { connectToDatabase } = require('./config/db');
-const errorHandler = require('./middleWares/errorHandler');
+const errorHandler = require('./middlewares/errorHandler');
 
 const apiRouter = require('./routers');
 const app = express();
