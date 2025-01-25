@@ -1,2 +1,2 @@
-require('./app');
-const cors = require('cors');
+const app = require('./app');
+module.exports = app;
