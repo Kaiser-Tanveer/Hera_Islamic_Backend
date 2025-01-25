@@ -3,7 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const { connectToDatabase } = require('./config/db');
 const errorHandler = require('./middleWares/errorHandler');
-const apiRouter = require('./routers'); // Import the main router
+
+const apiRouter = require('./routers');
 const app = express();
 
 // Middleware
