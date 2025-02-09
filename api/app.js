@@ -2,12 +2,11 @@
 const express = require('express');
 const cors = require('cors');
 const { connectToDatabase } = require('./config/db');
-const errorHandler = require('./middlewares/errorHandler');
-
-const apiRouter = require('./routers');
+const errorHandler = require('./middleWares/errorHandler');
+const apiRouter = require('./routers'); // Import the main router
 const app = express();
+const PORT = process.env.PORT || 3003;
 
-// Middleware
 app.use(cors({
     origin: 'http://localhost:3000',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
@@ -15,8 +14,7 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Database and Routes Initialization
-(async () => {
+async function initialize() {
     try {
         const client = await connectToDatabase();
         app.use((req, res, next) => {
@@ -30,13 +28,18 @@ app.use(express.json());
         // Error handling middleware
         app.use(errorHandler);
 
-        // Root route for health check
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+
         app.get('/', (req, res) => {
             res.send('My server is running..');
         });
     } catch (error) {
-        console.error('Failed to initialize server:', error);
+        console.error('Failed to start server:', error);
     }
-})();
+}
+
+initialize();
 
 module.exports = app;
