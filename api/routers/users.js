@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addUser, getAllUsers, updateUserType, deleteUser } = require('../utilities/userController');
+const { addUser, getAllUsers, updateUserType, deleteUser } = require('../utilities/userController.js');
 
 // Add a generic user
 router.post('/', (req, res) => addUser(req, res));

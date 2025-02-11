@@ -1,8 +1,8 @@
 // app.js
 const express = require('express');
 const cors = require('cors');
-const { connectToDatabase } = require('./config/db');
-const errorHandler = require('./middleWares/errorHandler');
+const { connectToDatabase } = require('./config/db.js');
+const errorHandler = require('./middleWares/errorHandler.js');
 const apiRouter = require('./routers'); // Import the main router
 const app = express();
 const PORT = process.env.PORT || 3003;

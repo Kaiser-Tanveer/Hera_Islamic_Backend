@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { addUser, getUsers, updateUserType, deleteUser } = require('../utilities/userController');
+const { addUser, getUsers, updateUserType, deleteUser } = require('../utilities/userController.js');
 
 // Add a new student
 router.post('/', (req, res) => addUser(req, res, "Student"));

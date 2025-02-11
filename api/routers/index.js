@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const studentRoute = require('./students');
-const teacherRoute = require('./teachers');
-const userRoute = require('./users');
-const libraryRoute = require('./library');
-const accountsRoute = require('./accounts');
+const studentRoute = require('./students.js');
+const teacherRoute = require('./teachers.js');
+const userRoute = require('./users.js');
+const libraryRoute = require('./library.js');
+const accountsRoute = require('./accounts.js');
 
 // Routes for User Types
 router.use('/students', studentRoute);

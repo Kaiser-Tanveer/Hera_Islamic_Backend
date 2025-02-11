@@ -4,7 +4,7 @@ const {
     addExpense, 
     getExpense, 
     updateFieldInCollection 
-} = require('../utilities/accountController');
+} = require('../utilities/accountController.js');
 
 // Add a new expense
 router.post('/', addExpense);
