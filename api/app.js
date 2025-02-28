@@ -1,11 +1,10 @@
-// app.js
 const express = require('express');
 const cors = require('cors');
 const { connectToDatabase } = require('./config/db.js');
 const errorHandler = require('./middleWares/errorHandler.js');
-const apiRouter = require('./routers'); // Import the main router
+const apiRouter = require('./routers');
+
 const app = express();
-const PORT = process.env.PORT || 3003;
 
 app.use(cors({
     origin: 'http://localhost:3000',
@@ -28,18 +27,17 @@ async function initialize() {
         // Error handling middleware
         app.use(errorHandler);
 
-        app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
-        });
-
+        // Root route
         app.get('/', (req, res) => {
             res.send('My server is running..');
         });
+
     } catch (error) {
         console.error('Failed to start server:', error);
     }
 }
 
+// Initialize the database and routes
 initialize();
 
 module.exports = app;
