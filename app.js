@@ -5,9 +5,10 @@ const errorHandler = require('./middlewares/errorHandler.js');
 const apiRouter = require('./routers');
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:5000',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
@@ -37,7 +38,12 @@ async function initialize() {
     }
 }
 
+app.listen(PORT, () => {
+            console.log(`Server running on http://localhost:${PORT}`);
+});
+
 // Initialize the database and routes
 initialize();
+
 
 module.exports = app;
