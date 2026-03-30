@@ -22,16 +22,15 @@ async function initialize() {
             next();
         });
 
+        // Root route
+        app.get('/', (req, res) => {
+            res.send('Server is running on Vercel 🚀');
+        });
         // Mount the main API router at /api
         app.use('/api', apiRouter);
 
         // Error handling middleware
         app.use(errorHandler);
-
-        // Root route
-        app.get('/', (req, res) => {
-            res.send('My server is running..');
-        });
 
     } catch (error) {
         console.error('Failed to start server:', error);
@@ -44,7 +43,6 @@ if (process.env.NODE_ENV !== 'production') {
         console.log(`Server running on http://localhost:${PORT}`);
     });
 }
-
 
 // Initialize the database and routes
 initialize();
