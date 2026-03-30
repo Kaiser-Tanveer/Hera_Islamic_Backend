@@ -38,9 +38,13 @@ async function initialize() {
     }
 }
 
-app.listen(PORT, () => {
-            console.log(`Server running on http://localhost:${PORT}`);
-});
+// Only run locally
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`Server running on http://localhost:${PORT}`);
+    });
+}
+
 
 // Initialize the database and routes
 initialize();
