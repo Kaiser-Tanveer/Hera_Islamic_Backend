@@ -8,44 +8,43 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-    origin: 'http://localhost:5000',
+    origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type']
 }));
+
 app.use(express.json());
 
-async function initialize() {
+// ✅ Root route
+app.get('/', (req, res) => {
+    res.send('Server is running on Vercel 🚀');
+});
+
+// 🔥 GLOBAL DB CACHE (KEY FIX)
+let clientPromise = connectToDatabase();
+
+// ✅ Inject DB into request
+app.use(async (req, res, next) => {
     try {
-        const client = await connectToDatabase();
-        app.use((req, res, next) => {
-            req.client = client;
-            next();
-        });
-
-        // Root route
-        app.get('/', (req, res) => {
-            res.send('Server is running on Vercel 🚀');
-        });
-        // Mount the main API router at /api
-        app.use('/api', apiRouter);
-
-        // Error handling middleware
-        app.use(errorHandler);
-
-    } catch (error) {
-        console.error('Failed to start server:', error);
+        const client = await clientPromise;
+        req.client = client;
+        next();
+    } catch (err) {
+        next(err);
     }
-}
+});
 
-// Only run locally
+// ✅ API routes
+app.use('/api', apiRouter);
+
+// ✅ Error handler
+app.use(errorHandler);
+
+// ✅ Local run
 if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server running on http://localhost:${PORT}`);
     });
 }
-
-// Initialize the database and routes
-initialize();
-
 
 module.exports = app;
